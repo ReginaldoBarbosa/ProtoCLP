@@ -1,42 +1,76 @@
 #include <LiquidCrystal.h>
 
 
-String SCRIPT = "ACIONAR 2";
+class commandValue{
+  
+  private:
+    String lineCommand;
+    
+    String command;
+    String state;
+    
+    int value;
+
+    
+    
+    
+  
+  public:
+
+    commandValue(String lineCommand){
+
+      String commandStr,valueStr,stateStr;
+      
+    }
+    
+    void setCommand(String command){
+      this->command = command;
+    }
+
+    void setValue(int value){
+      this->value = value;
+    }
+
+    String getCommand(){
+      return this->command;
+    }
+    
+    int getValue(){
+      return this->value;
+    }
+};
+
+String SCRIPT = "PALAVRA\n";
 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
-void ldcPrint(String comand,int col = 0,int lin = 0,int flagClear = 0);
-String getScriptLine();
+void ldcPrint(String command,int col = 0,int lin = 0,int flagClear = 0);
 
 
 void setup() {
-  lcd.begin(16, 2);
+  Serial.begin(9600);
+  commandValue line(SCRIPT);
 
-  pinMode(8,OUTPUT);
-  pinMode(9,OUTPUT);
-  pinMode(10,OUTPUT);
-
+  Serial.print("Comando: ");
+  Serial.println(line.getCommand());
+  Serial.print("Valor: ");
+  Serial.print(line.getValue());
+  
 }
 
 void loop() {
+
   
-  if(getScriptLine() == "ACIONAR 1")digitalWrite(8,HIGH);
-  if(getScriptLine() == "ACIONAR 2")digitalWrite(9,HIGH);
-  if(getScriptLine() == "ACIONAR 3")digitalWrite(10,HIGH);
-  ldcPrint(getScriptLine());  
- 
+  
+
 }
 
 
-void ldcPrint(String comand,int col,int lin,int flagClear){
+void ldcPrint(String command,int col,int lin,int flagClear){
 
    if(flagClear == 1)lcd.clear();
    lcd.setCursor(col, lin);
-   lcd.print(comand);
+   lcd.print(command);
     
   
   }
-
-String getScriptLine(){
-  return SCRIPT; 
- }
