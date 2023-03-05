@@ -1,6 +1,9 @@
 #include <LiquidCrystal.h>
 
 
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+
 void ldcPrint(String command,int col = 0,int lin = 0,int flagClear = 0);
 
 class commandLine{
@@ -8,22 +11,22 @@ class commandLine{
   private:
     String lineCommand;
     String command;
-    int state = 3;
-    int value;
+    String state = "3";
+    String value;
  
   public:
 
     commandLine(String lineCommand){
-
+      lineCommand.toLowerCase();
       String commandStr,valueStr,stateStr = "#", wordAux = "";
       int count = 0, countVar = 0;
       do{
         wordAux = wordAux + lineCommand[count];
         count++;         
         if((lineCommand[count] == ' ')||(lineCommand[count] == ';')){
-          if(countVar == 0)commandStr = wordAux;
-          if(countVar == 1)valueStr   = wordAux;
-          if(countVar == 2)stateStr   = wordAux;
+          if(countVar == 0)setCommand(wordAux);
+          if(countVar == 1)setValue(wordAux);
+          if(countVar == 2)stateStr = wordAux;
           
           countVar++;
           wordAux = "";
@@ -33,17 +36,10 @@ class commandLine{
  
       }while(lineCommand[count] != ';');
 
-      setCommand(commandStr);
-      setValue(atoi(valueStr.c_str()));
       if(strcmp(stateStr.c_str(),"#")){
-        stateStr.toLowerCase();
-        if(!strcmp(stateStr.c_str(),"true")){
-          setState(1);
-        }
-        else if(!strcmp(stateStr.c_str(),"false")){
-          setState(0);
-        } 
-        else setState(2);            
+        if(!strcmp(stateStr.c_str(),"true"))setState("true");
+        else if(!strcmp(stateStr.c_str(),"false")) setState("false");
+             else setState("$");            
       }
 
     }
@@ -52,11 +48,11 @@ class commandLine{
       this->command = command;
     }
 
-    void setValue(int value){
+    void setValue(String value){
       this->value = value;
     }
 
-    void setState(int state){
+    void setState(String state){
       this->state = state;
     }
     
@@ -64,37 +60,33 @@ class commandLine{
       return this->command;
     }
     
-    int getValue(){
+    String getValue(){
       return this->value;
     }
 
-    int getState(){
+    String getState(){
       return this->state;
     }
 
 };
 
-String SCRIPT = "PALAVRA 345 tRue;\n";
 
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+String SCRIPT[10] = {};
 
 
 void setup() {
   Serial.begin(9600);
-  commandLine line(SCRIPT);
 
-  Serial.print("Comando:");
-  Serial.println(line.getCommand());
-  Serial.print("Valor:");
-  Serial.println(line.getValue());
-  Serial.print("Estado:");
-  Serial.print(line.getState());  
+  commandLine comand("PALAVRA 12 TRUE;");
+
+  Serial.println(comand.getCommand());
+  Serial.println(comand.getValue());
+  Serial.println(comand.getState());
+
+  
 }
 
 void loop() {
-
-  
-  
 
 }
 
