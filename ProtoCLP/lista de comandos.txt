@@ -2,8 +2,6 @@ INICIO               		|        (
 FIM                  		|	 )			
                    		|
 COMUTAR VALOR       		|        A#
-COMUTAR VALOR      		|        
-COMUTAR VALOR       		|
 
 IRPARA VALOR       		|        G#				
 AQUI   VALOR      		|	 H#				
