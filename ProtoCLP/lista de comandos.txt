@@ -1,17 +1,21 @@
-INICIO 
-END
+INICIO               		|        (
+FIM                  		|	 )			
+                   		|
+COMUTAR VALOR       		|        A#
+COMUTAR VALOR      		|        
+COMUTAR VALOR       		|
 
-ACIONAR VALUE
-ACIONAR VALUE
-ACIONAR VALUE
-
-GOTO VALUE
-AQUI VALUE
-
-
-IF VALUE STATE
-TRUE, FALSE
-ENDIF
+IRPARA VALOR       		|        G#				
+AQUI   VALOR      		|	 H#				
 
 
-DELAY VALOR
+SE VALOR ESTADO    		|	 C#$[
+VERD FALS          		|        T F
+FIMSE              		|	 ]
+
+
+DELAY VALOR       		|	 D#
+
+
+
+"INICIO","FIM","COMUTAR","IRPARA","AQUI","SE","FIMSE","DELAY" 

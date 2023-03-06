@@ -8,7 +8,7 @@ void ldcPrint(String command,int col = 0,int lin = 0,int flagClear = 0);
 
 class commandList{
   private:
-    String commandStringList[8] = {"INICIO","END","COMUTAR","GOTO","AQUI","IF","ENDIF","DELAY"};
+    String commandStringList[8] = {"INICIO","FIM","COMUTAR","IRPARA","AQUI","SE","FIMSE","DELAY"};
     String commandCodList[8]    = {"(",")","A#","G#","H#","C#$","]","D#"};
     String stateList[2]         = {"T","F"};
     int    nCommand             = 8;
@@ -65,8 +65,8 @@ class commandLine{
       }while(lineCommand[count] != ';');
 
       if(strcmp(stateStr.c_str(),"#")){
-        if(!strcmp(stateStr.c_str(),"TRUE"))setState("TRUE");
-        else if(!strcmp(stateStr.c_str(),"FALSE")) setState("FALSE");
+        if(!strcmp(stateStr.c_str(),"VERD"))setState("VERD");
+        else if(!strcmp(stateStr.c_str(),"FALS")) setState("FALS");
              else setState("$");            
       }
 
@@ -125,8 +125,8 @@ class commandTranslate{
       }
       if((transl.indexOf('#')!=-1)&&(transl.indexOf('$')!=-1)){
         transl = transl.substring(0,(int)transl.indexOf('#')) + command.getValue(); 
-        if(command.getState()=="TRUE") transl= transl.substring(0,(int)transl.indexOf('$')) + reference.getState(0)+"[";
-        if(command.getState()=="FALSE")transl= transl.substring(0,(int)transl.indexOf('$')) + reference.getState(1)+"[";         
+        if(command.getState()=="VERD") transl= transl.substring(0,(int)transl.indexOf('$')) + reference.getState(0)+"[";
+        if(command.getState()=="FALS")transl= transl.substring(0,(int)transl.indexOf('$')) + reference.getState(1)+"[";         
       }
       return transl + " "; 
     }
@@ -138,13 +138,11 @@ class commandTranslate{
     }
 };
 
-String SCRIPT[10] = {"INICIO;","COMUTAR 2;","AQUI 2;","COMUTAR 1;","IF 3 TRUE;","GOTO 2;","ENDIF;","DELAY 10;","COMUTAR 1;","END;"};
+String SCRIPT[10] = {"INICIO;","COMUTAR 2;","AQUI 2;","COMUTAR 1;","SE 3 VERD;","IRPARA 2;","FIMSE;","DELAY 10;","COMUTAR 1;","FIM;"};
 
 
 void setup() {
   Serial.begin(9600);
-
-
   commandLine comand;
   commandTranslate ct;
   String script;
@@ -159,8 +157,6 @@ void setup() {
   }
   
   Serial.println(ct.getCommandTranslated());
-
-
   
 }
 
